@@ -45,7 +45,6 @@ const _Layout = () => {
           overflow: "hidden",
           borderWidth: 1,
           borderColor: "#0f0d23",
-          
         },
       }}
     >
@@ -63,9 +62,9 @@ const _Layout = () => {
       />
 
       <Tabs.Screen
-        name="profile"
+        name="search"
         options={{
-          title: "Profile",
+          title: "Search",
           headerShown: false,
           tabBarIcon: ({ focused }) => (
             <>
@@ -89,13 +88,13 @@ const _Layout = () => {
       />
 
       <Tabs.Screen
-        name="search"
+        name="profile"
         options={{
-          title: "Search",
+          title: "Profile",
           headerShown: false,
           tabBarIcon: ({ focused }) => (
             <>
-              <TabIcon focused={focused} icon={icons.search} title="Search" />
+              <TabIcon focused={focused} icon={icons.person} title="Profile" />
             </>
           ),
         }}
