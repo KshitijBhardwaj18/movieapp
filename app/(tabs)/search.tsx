@@ -14,6 +14,10 @@ const Search = () => {
     loading: moviesLoading,
     error: moviesError,
   } = useFetch(() => fetchMovies({ query: searchQuery }), false);
+
+  console.log(movies);
+  console.log(moviesError);
+  console.log(moviesLoading);
   return (
     <View className="flex-1 bg-primary ">
       <Image
