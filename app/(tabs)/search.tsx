@@ -18,16 +18,17 @@ const Search = () => {
   } = useFetch(() => fetchMovies({ query: searchQuery }), false);
 
   useEffect(() => {
-    const func = async () => {
+    const timeoutId = setTimeout(async () => {
       if (searchQuery) {
         await loadMovies();
       } else {
         reset();
       }
+    }, 500);
 
-      func();
-    };
+    return () => clearTimeout(timeoutId);
   }, [searchQuery]);
+
   return (
     <View className="flex-1 bg-primary ">
       <Image
@@ -50,11 +51,11 @@ const Search = () => {
         contentContainerStyle={{ paddingBottom: 100 }}
         ListHeaderComponent={
           <>
-            <View className="flex flex-col items-center justify-center mt-20">
+            <View className="flex flex-col items-center  mt-20">
               <Image className="w-12 h-10   mb-2 mx-auto" source={icons.logo} />
               <View className="my-5 w-full">
                 <SearchBar
-                  placeholderText="Search for a move "
+                  placeholderText="Search for a movei "
                   value={searchQuery}
                   onChangeText={(text: string) => setSearchQuery(text)}
                 />
@@ -63,7 +64,7 @@ const Search = () => {
               {moviesLoading && (
                 <ActivityIndicator
                   size="large"
-                  color="0000ff"
+                  color="#0000ff"
                   className="my-3"
                 />
               )}
@@ -78,13 +79,24 @@ const Search = () => {
                 !moviesError &&
                 searchQuery.trim() &&
                 movies?.length > 0 && (
-                  <Text className="text-xl font-bold text-white">
-                    Search results for {searchQuery}
-                    <Text className="text-accent"></Text>{" "}
+                  <Text className="text-xl font-bold text-white text-left">
+                    Search results for{" "}
+                    <Text className="text-accent">{searchQuery}</Text>
                   </Text>
                 )}
             </View>
           </>
+        }
+        ListEmptyComponent={
+          !moviesLoading && !moviesError ? (
+            <View className="mt-10 px-5">
+              <Text className="text-center text-gray-500">
+                {searchQuery.trim()
+                  ? "No movies found"
+                  : "Search for your favorite movie"}
+              </Text>
+            </View>
+          ) : null
         }
       />
     </View>
