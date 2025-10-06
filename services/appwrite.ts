@@ -29,13 +29,29 @@ export const updateSearchCount = async (query: string, movie: Movie) => {
       });
     } else {
       await database.createRow(DATABASE_ID, TABLE_ID, ID.unique(), {
-        title:movie.title,
+        title: movie.title,
         searchTerm: query,
         movie_id: movie.id,
         count: 1,
         poster_url: `https://image.tmdb.org/t/p/w500${movie.poster_path}`,
       });
     }
+  } catch (error) {
+    console.log(error);
+    throw error;
+  }
+};
+
+export const getTrendingMovies = async (): Promise<
+  TrendingMovie[] | undefined
+> => {
+  try {
+    const result = await database.listRows(DATABASE_ID, TABLE_ID, [
+      Query.limit(5),
+      Query.orderDesc("count"),
+    ]);
+
+    return result.rows as unknown as TrendingMovie[];
   } catch (error) {
     console.log(error);
     throw error;
